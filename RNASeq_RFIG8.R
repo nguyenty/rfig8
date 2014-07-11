@@ -34,23 +34,24 @@ for (i in 1:length(nname)){
   }
 }
 # meta.data2
-# write.table(meta.data2, paste(datdir,"/Meta.data2.txt",sep = ""), sep = "\t")
+# write.table(meta.data2, "Meta.data2.txt")
 # write.csv(meta.data2, paste(datdir,"/Meta.data2.csv",sep =""))
-
+# str(meta.data2)
+# str(meta.data)
 meta.data2[,c("ID","Sample.Name","RFI.value")]
 meta.data[,c("Sample.Name","RFI.value")]
-name <- paste("X",meta.data$Sample.Name, sep = "")
+name <- paste("X",meta.data$Sample.Name, sep = "") # meta.data2$Sample.Name
 dat2 <- dat[, name]
 
-Lane <- as.factor(meta.data$Lane.RNAseq)
-Diet <- as.factor(meta.data$diet)
-Line <- as.factor(meta.data$line)
+Lane <- as.factor(meta.data2$Lane.RNAseq)
+Diet <- as.factor(meta.data2$diet)
+Line <- as.factor(meta.data2$line)
 RFI <- meta.data2$RFI.value
-RINb <- meta.data$RIN.before.GD
-RINa  <- meta.data$RIN.after.GD
-Conc <- meta.data$Conc.after.GD.ng.ul.
-dateGD <- meta.data$date.GD
-dateRNA <- meta.data$date.RNA.extraction
+RINb <- meta.data2$RIN.before.GD
+RINa  <- meta.data2$RIN.after.GD
+Conc <- meta.data2$Conc.after.GD.ng.ul.
+dateGD <- meta.data2$date.GD
+dateRNA <- meta.data2$date.RNA.extraction
 variable_name <- c("Lane", "Diet", "Line", "RFI", 
                    "RINb", "RINa", 
                    "Conc", "dateGD", "dateRNA")
@@ -272,7 +273,7 @@ pm1 <- proc.time()
 out_model <- fit_model(full_model, model_th)
 assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
 get(paste("ms_criteria", model_th, sep = "_" ))
-list_model(full_model)
+list_model(full_model)$test.mat
 proc.time() -pm1
 #; fit_model(full_model, model_th) ;
 
@@ -285,7 +286,7 @@ pm1 <- proc.time()
 out_model <- fit_model(full_model, model_th)
 assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
 get(paste("ms_criteria", model_th, sep = "_" ))
-list_model(full_model)
+list_model(full_model)$test.mat
 proc.time() -pm1
 #; fit_model(full_model, model_th) ;
 
@@ -353,10 +354,13 @@ get(paste("ms_criteria", model_th, sep = "_" ))
 list_model(full_model)$test.mat
 proc.time() -pm1
 #; fit_model(full_model, model_th) ;
-
-
-
+# Lane
+# dateGD
+# dateRNA
+# table(Lane, dateRNA)
+# table(Lane, dateGD)
 # Model 7: ####
+#dim(counts)
 m <- 7
 model_th <- m
 full_model <- model.matrix(~Line +  RINb + RINa + Conc + Lane + dateGD)

@@ -127,10 +127,13 @@ sel_criteria <- function(result){
                                        diff(c(0,g_cdf(z)$x.knots))))
   # Proportion of pvalue less than 0.05
   pvalue_05 <- apply(dat<=0.05, 2, sum)
-  return( data.frame(pvalue05 = order(pvalue_05),
-                     ad = order(ad),
-                     cvm = order(cvm),
-                     ks = order(ks)))
+  
+  out <- data.frame(pvalue05 = order(pvalue_05),
+                    ad = order(ad),
+                    cvm = order(cvm),
+                    ks = order(ks))
+  
+  return(out)
 }
 
 
@@ -206,7 +209,13 @@ list_model <- function(full_model){
 fit_model <- function(full_model, model_th){
   list_out <- list_model(full_model)
   design.list <- list_out$design.list
-  test.mat <- list_out$test.mat
+#   design.list <- vector("list", 2)
+#   design.list[[1]] <- full_model
+#   
+#   design.list[[2]] <- full_model[,-13]
+#   test.mat <- matrix(c(1,2), ncol = 2, nrow = 1, byrow = F)
+#rownames(test.mat) <- "LineDiet"
+#   test.mat <- list_out$test.mat
   fit <- QL.fit(counts, design.list, test.mat, 
                 log.offset = log.offset, print.progress=FALSE,
                 Model = "NegBin")
@@ -235,20 +244,136 @@ fit_model <- function(full_model, model_th){
     box()
     dev.off()
   }
+
   print(paste("Model", model_th, sep = " "))
   return(sel_criteria(result))
 }
 
 
 
-# Model 1: ####
-m <- 1
+# Model 0: ####
+m <- 0
 model_th <- m
 full_model <- model.matrix(~Line*Diet + RFI + RINb + RINa + Conc + Lane + dateRNA)
 pm1 <- proc.time()
 out_model <- fit_model(full_model, model_th)
 assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
 get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)
 proc.time() -pm1
 #; fit_model(full_model, model_th) ;
 
+
+# Model 1: ####
+m <- 1
+model_th <- m
+full_model <- model.matrix(~Line+Diet + RFI + RINb + RINa + Conc + Lane + dateRNA)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)
+proc.time() -pm1
+#; fit_model(full_model, model_th) ;
+
+
+# Model 2: ####
+m <- 2
+model_th <- m
+full_model <- model.matrix(~Line+ RFI + RINb + RINa + Conc + Lane + dateRNA)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)
+proc.time() -pm1
+#; fit_model(full_model, model_th) ;
+
+# Model 3: ####
+m <- 3
+model_th <- m
+full_model <- model.matrix(~Line+ RFI + RINb + RINa +  Lane + dateRNA)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+list_model(full_model)$test.mat
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+
+proc.time() -pm1
+#; fit_model(full_model, model_th) ;
+
+
+# Model 4: ####
+m <- 4
+model_th <- m
+full_model <- model.matrix(~Line+ RINb + RINa +  Lane + dateRNA)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+list_model(full_model)$test.mat
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+
+proc.time() -pm1
+#; fit_model(full_model, model_th) ;
+
+
+# Model 00: ####
+m <- 00
+model_th <- m
+full_model <- model.matrix(~Line*Diet + RFI + RINb + RINa + Conc + Lane + dateGD)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)$test.mat
+proc.time() -pm1
+#; fit_model(full_model, model_th) ;
+
+# Model 5: ####
+m <- 5
+model_th <- m
+full_model <- model.matrix(~Line + Diet + RFI + RINb + RINa + Conc + Lane + dateGD)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)$test.mat
+proc.time() -pm1
+#; fit_model(full_model, model_th) ;
+
+
+# Model 6: ####
+m <- 6
+model_th <- m
+full_model <- model.matrix(~Line + Diet +  RINb + RINa + Conc + Lane + dateGD)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)$test.mat
+proc.time() -pm1
+#; fit_model(full_model, model_th) ;
+
+
+
+# Model 7: ####
+m <- 7
+model_th <- m
+full_model <- model.matrix(~Line +  RINb + RINa + Conc + Lane + dateGD)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)$test.mat
+proc.time() -pm1
+
+# Model 8: ####
+m <- 8
+model_th <- m
+full_model <- model.matrix(~Line +  RINb + RINa + Conc +  dateGD)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)$test.mat
+proc.time() -pm1

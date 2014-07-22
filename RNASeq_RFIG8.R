@@ -374,7 +374,7 @@ proc.time() -pm1
 # Model 8: ####
 m <- 8
 model_th <- m
-full_model <- model.matrix(~Line +  RINb + RINa + Conc +  dateGD)
+full_model <- model.matrix(~Line +  RINa + Conc + Lane + dateGD)
 pm1 <- proc.time()
 out_model <- fit_model(full_model, model_th)
 assign(paste("ms_criteria", model_th, sep = "_" ),out_model)

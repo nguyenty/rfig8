@@ -21,6 +21,12 @@ ndata <- read.csv("g8p2_g9p2-rfiadj-FINAL_Jan_2014_rfiadjusted.csv")
 # cbc <- read.csv('cbcdata.csv',
 #                 header =T)
 dat <- read.table("RFI_uniq_comb_count_corrected.txt")
+# #dat <- read.table("RFI_uniq_comb_count_2.txt")
+# dim(dat)
+# which(rownames(dat) %in% "ENSSSCG00000007978")
+# which(rownames(dat) %in% "ENSSSCG00000014725")
+# dat[which(rownames(dat) %in% "ENSSSCG00000007978"), ]
+# dat[which(rownames(dat) %in% "ENSSSCG00000014725"),]
 
 meta.data <- read.csv("RIN values RNAseq Obj3a Martine.csv")
 nname <- paste("20800",sprintf("%04.0f",meta.data$Sample.Name), sep = "")
@@ -374,7 +380,7 @@ proc.time() -pm1
 # Model 8: ####
 m <- 8
 model_th <- m
-full_model <- model.matrix(~Line +  RINa + Conc + Lane + dateGD)
+full_model <- model.matrix(~Line +  RINb + RINa + Conc +  dateGD)
 pm1 <- proc.time()
 out_model <- fit_model(full_model, model_th)
 assign(paste("ms_criteria", model_th, sep = "_" ),out_model)

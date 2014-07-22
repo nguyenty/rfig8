@@ -1,0 +1,205 @@
+\documentclass[handout,xcolor=pdftex,dvipsnames,table]{beamer} 
+
+\usecolortheme[RGB={0,0,144}]{structure}
+%\usetheme{AnnArbor}\usecolortheme{beaver}
+\usetheme{CambridgeUS}\usecolortheme{dolphin}
+
+\usepackage{graphicx}
+\usepackage[space]{grffile}
+\usepackage{verbatim,xmpmulti,color,multicol,multirow}
+\setlength{\unitlength}{\textwidth}  % measure in textwidths
+\usepackage[normalem]{ulem}
+\usepackage{amssymb,amsmath,latexsym}
+\usepackage{booktabs}
+\usepackage{array}
+\newcolumntype{L}{>{$}l<{$}}
+\newcolumntype{C}{>{$}c<{$}}
+\newcolumntype{R}{>{$}r<{$}}
+\newcommand{\nm}[1]{\textnormal{#1}}
+
+
+%\usepackage{beamerthemesplit}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{caption}[numbered]
+%\setbeamercolor{alerted text}{fg=red}
+%\setbeamertemplate{block body theorem}{bg=orange}
+\setkeys{Gin}{width=0.6\textwidth}
+
+
+%\SweaveOpts{concordance=TRUE}
+
+<<setup, include=FALSE>>=
+#render_listings()
+#pdf.options(useDingbats = TRUE)
+opts_chunk$set(fig.path='figure/beamer-',fig.align='center',fig.show='hold',size='footnotesize',echo=FALSE,message=FALSE,error=FALSE,warning=FALSE)
+opts_chunk$set(fig.width=5, fig.height=5, out.width='.6\\linewidth', fig.align='center')
+
+@
+
+<<echo=FALSE,results='hide'>>=
+# some setup
+options(width=60) # make the printing fit on the page
+set.seed(1121) # make the results repeatable
+require(xtable)
+require(PASWR)
+@
+
+\title[RNASeq Analysis]{Analyze RNASeq Data from G9P2 RFI (Residual Feed Intake) Lines Using QuasiSeq Package}
+
+
+% \author[Yet Nguyen, Dan Nettleton]{Yet Nguyen \and Dan Nettleton}
+% \institute[ISU]{Iowa State University}
+
+%
+
+\begin{document}
+\frame{\maketitle}
+\frame {
+\frametitle{Table of Contents}
+\begin{itemize}
+\setlength{\itemsep}{.2in}
+\item[1.] Data Summary
+\item[2.] Model Selection Stragegies
+\begin{itemize}
+\item Number of genes with pvalues less than 0.05
+\item Distance between Grenander CDF Estimator to Uniform CDF using
+\begin{itemize}
+\item Anderson-Darling Statistics
+\item Crames-Von-Miser statistics
+\item Kolmogorow-Smirnov statistics 
+\end{itemize}
+\end{itemize}
+\item[3.] Results
+\end{itemize}
+}
+
+
+\section{Data Summary}
+\begin{frame}[fragile]
+\frametitle{RNASeq Data Summary}
+\begin{itemize}
+\setlength{\itemsep}{.25in}
+\item RNASeq data set is a  25320 $\times$ 31 table of count data  corresponding to 25320 genes of 31  pigs from 2 Lines: high RFI Line and low RFI Line, and 2 Diets: high energy diet (Diet 1) and low energy diet (Diet 2).
+
+\item  For Diet 1, the RNA data are from 7 low RFI line pigs and 8  high RFI line pigs. 
+For Diet 2, the RNA data are from 8 low RFI line pigs and 8  high RFI line pigs.
+ 
+\end{itemize}
+ 
+
+\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%
+\frame{
+\frametitle{Metadata Summary}
+\begin{itemize}
+\setlength{\itemsep}{.25in}
+\item The available metadata consists of infomation of  9 covariates for 31 samples of 31 pigs.
+
+\begin{itemize}
+\item Factors: Diet (2 levels), Line (2 levels), Block (4 levels), Blockorder (8 levels).
+\item Quantitative covariates: RFI (RFI values) , RINb (RNA Integrity Number before globin depletion), RINa (RNA Integrity Number after globin depletion), Concb (RNA Concentration before globin depletion), Conca(RNA Concentration after globin depletion).
+\end{itemize}
+\item CBC (Complete Blood Count) data:  neutrophils, lymphocytes, monocytes, eosinophils, and basophils. The CBC covariates are in model in the form of log transformation.
+\end{itemize}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
+\frame{
+\frametitle{Number of Genes Used in Analysis}
+\begin{itemize}
+
+\setlength{\itemsep}{.25in}
+
+
+\item Models with metadata covariates and with CBC covariates: The number of genes analyzed is 12222. Those are genes with average counts greater than 8 and for which there are at least four samples with non-zero counts. 
+\end{itemize}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Model Selection}
+\begin{frame}
+\frametitle{Model Selection Criteria}
+Starting model includes all interested covariates. For each covariate, 
+\begin{itemize}
+\setlength{\itemsep}{.2in}
+\item We conduct a Likelihood Ratio Test using QuasiSeq of the full model vs. the reduced model obtained from the full model by deleting the considerated covariate. We collect the set of pvalues of all genes from the tests. 
+
+\item Obtain the number of genes with pvalues less than or equal 0.05. 
+\item Obtain Grenander CDF estimator of the empirical CDF of the sample from those pvalues.
+\item Obtain the Anderson-Darling statistics, Crames-Von-Miser statistics, and Kolmogorow-Smirnov statistics between the Grenander CDF and uniform CDF.
+\end{itemize}
+Exclude the covariate corresponding to the smallest value for most of the above criteria.
+\end{frame}
+\begin{frame}[fragile]
+\frametitle{Backward Model Selection}
+\begin{figure}[h!]
+    \centering
+    %\includegraphics[width=\textwidth,height=0.8\textheight,keepaspectratio]{/home/ntyet/research/RFI-newdata/analysis/rfi/Plot06_26_2014_1.pdf}
+    \includegraphics[width=\textwidth,height=1.4\textheight,keepaspectratio]{Plot07_022014_rficbc.pdf}
+    \end{figure}
+\end{frame}
+\section{Results}
+\begin{frame}[fragile]
+\frametitle{Results of Model 7}
+\begin{itemize}
+\item 
+Estimated number of DE Genes between two RFI Lines
+<<>>=
+#load("Model7_fit.RData")
+load("Model7_result.RData")
+dim(result$Q.values[[3]])[1]- result$m0[3,1]
+@
+
+\item When FDR is controlled at 0.05, 0.10, 0.15, the number of DE Genes between two RFI Lines (DEGs) and the number of DE Genes between two RFI Lines with log(fold change) at least 1 (log(FC) $\geq 1$) are shown in the table below
+<<results ='asis'>>=
+### Reading data #######
+covset <- read.csv("covset.csv")
+attach(covset)
+
+load("Model7_result.RData")
+scount <- read.table("single end uniquely mapped reads count table for Yet.txt", 
+                     header = T)
+
+counts <- as.matrix(scount[rowSums(scount[,-1]>0)>3&
+                           rowMeans(scount[,-1])>8& 
+                             rowSums(scount[,-1][,Line ==1] > 0) >0 &
+                             rowSums(scount[,-1][, Line ==2] >0) >0 ,-1])
+
+
+## List of Line DE Genes when FDR is controled at 0.05, 0.10, 0.15
+
+degene05 <- which(result$Q.values[[3]][,"Line"]<=0.05)
+degene10 <- which(result$Q.values[[3]][,"Line"]<=0.10)
+degene15 <- which(result$Q.values[[3]][,"Line"]<=0.15)
+
+## Total number of Line  DE Genes when FDR is controlled at 0.05, 0.10, 0.15
+
+degene <- c(length(degene05), length(degene10), length(degene15))
+
+## List of subset of Line DE Genes with log(FC) >=1 when FDR is controlled at 0.05, 0.10, 0.15
+
+lf105 <- which(abs(log(apply(counts[degene05, Line ==1]+1, 1, mean)/apply(counts[degene05, Line ==2]+1, 1, mean))) >=1)
+
+lf110 <- which(abs(log(apply(counts[degene10, Line ==1]+1, 1, mean)/apply(counts[degene10, Line ==2]+1, 1, mean))) >=1)
+
+lf115 <- which(abs(log(apply(counts[degene15, Line ==1]+1, 1, mean)/apply(counts[degene15, Line ==2]+1, 1, mean))) >=1)
+
+## Total number of Line DE Genes with log(FC) >=1 when FDR is controlled at 0.05, 0.10, 0.15
+
+lf1 <- c(length(lf105), length(lf110), length(lf115))
+
+# Summary table
+out <- data.frame(FDR =c(0.05, 0.10, 0.15), degene = degene, lf1 = lf1)
+colnames(out) <- c("FDR", "DEGs", "$\\mbox{log(FC)}\\geq 1$")
+
+print(xtable(out), include.rownames = F, sanitize.colnames.function = identity)
+@
+\end{itemize}
+\end{frame}
+
+\end{document}

@@ -44,8 +44,8 @@ for (i in 1:length(nname)){
 # write.csv(meta.data2, paste(datdir,"/Meta.data2.csv",sep =""))
 # str(meta.data2)
 # str(meta.data)
-meta.data2[,c("ID","Sample.Name","RFI.value")]
-meta.data[,c("Sample.Name","RFI.value")]
+# meta.data2[,c("ID","Sample.Name","RFI.value")]
+# meta.data[,c("Sample.Name","RFI.value")]
 
 # extract cbc data
 cbc.data <- read.csv("cbcdata.csv")
@@ -57,7 +57,7 @@ idpig_cbc
 cbc_cov <- cbc.data[idpig_cbc,]
 dim(cbc_cov)
 name <- paste("X",meta.data$Sample.Name[-5], sep = "") # meta.data2$Sample.Name
-del_row <- which(rownames(dat2) %in%c("ENSSSCG00000007978", "ENSSSCG00000014725"))
+del_row <- which(rownames(dat) %in%c("ENSSSCG00000007978", "ENSSSCG00000014725"))
 dat2 <- dat[-del_row, name]
 dim(dat2)
 
@@ -89,7 +89,7 @@ variable_name <- c("Lane", "Diet", "Line", "RFI",
 # nname %in% cbc$Idpig
 # nname[5]
 counts <- as.matrix(dat2[rowSums(dat2>0)>3&
-                           rowMeans(dat2)>1,])
+                           rowMeans(dat2)>8,])
 log.offset <- log(apply(counts, 2, quantile, .75))
 #dim(counts)
 
@@ -251,7 +251,7 @@ fit_model <- function(full_model, model_th){
   k <- nrow(test.mat)
   name_model <- NULL
   for (i in 1:k) name_model <- paste(name_model, row.names(test.mat)[i], sep =".")
-  model_dir <- paste(datdir, "/Reanalysis Data/result/Model",model_th,name_model, sep ="")
+  model_dir <- paste(datdir, "/Reanalysis Data/resultcbc/Model",model_th,name_model, sep ="")
   dir.create(model_dir, showWarnings = FALSE)
   save(result, file = paste(model_dir,"/Model",model_th, "_result.RData", sep =""))
   save(fit, file = paste(model_dir,"/Model",model_th, "_fit.RData", sep =""))
@@ -295,7 +295,8 @@ proc.time() -pm1
 # Model 1: ####
 m <- 1
 model_th <- m
-full_model <- model.matrix(~Line+Diet + RFI + RINb + RINa + Conc + Lane + llymp + 
+full_model <- model.matrix(~Line+Diet + RFI + RINb + RINa + Conc + 
+                             Lane + llymp + 
                              lneut + lmono + leosi + lbaso + dateRNA)
 #dim(full_model)
 pm1 <- proc.time()

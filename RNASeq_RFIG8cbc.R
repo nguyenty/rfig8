@@ -311,7 +311,10 @@ proc.time() -pm1
 # Model 2: ####
 m <- 2
 model_th <- m
-full_model <- model.matrix(~Line+ RFI + RINb + RINa + Conc + Lane + dateRNA)
+full_model <- model.matrix(~Line+ RFI + RINb + RINa + Conc + 
+                             Lane + llymp + 
+                             lneut + lmono + leosi + 
+                             lbaso + dateRNA)
 pm1 <- proc.time()
 out_model <- fit_model(full_model, model_th)
 assign(paste("ms_criteria", model_th, sep = "_" ),out_model)

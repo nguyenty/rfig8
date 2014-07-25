@@ -441,3 +441,64 @@ get(paste("ms_criteria", model_th, sep = "_" ))
 list_model(full_model)$test.mat
 proc.time() -pm1
 #; fit_model(full_model, model_th) ;
+
+# Model 10: ####
+m <- 10
+model_th <- m
+full_model <- model.matrix(~Line+Diet + RINb + RINa + Conc + 
+                             Lane + llymp + 
+                             lneut + lmono + leosi + lbaso + dateGD)
+#dim(full_model)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)$test.mat
+proc.time() -pm1
+#; fit_model(full_model, model_th) ;
+
+
+# Model 11: ####
+m <- 11
+model_th <- m
+full_model <- model.matrix(~Line+Diet + RINb + RINa + Conc + 
+                             Lane + llymp + 
+                             lneut + lmono + leosi +  dateGD)
+#dim(full_model)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)$test.mat
+proc.time() -pm1
+#; fit_model(full_model, model_th) ;
+
+# Model 12: ####
+m <- 12
+model_th <- m
+full_model <- model.matrix(~Line+Diet + RINb + RINa + Conc + 
+                             Lane + llymp + 
+                             lneut + lmono +   dateGD)
+#dim(full_model)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)$test.mat
+proc.time() -pm1
+#; fit_model(full_model, model_th) ;
+
+# Model 13: ####
+m <- 13
+model_th <- m
+full_model <- model.matrix(~Line+Diet + RINb + RINa + Conc + 
+                             Lane + llymp + 
+                             lneut  +   dateGD)
+#dim(full_model)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)$test.mat
+proc.time() -pm1
+#; fit_model(full_model, model_th) ;

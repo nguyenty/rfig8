@@ -502,3 +502,70 @@ get(paste("ms_criteria", model_th, sep = "_" ))
 list_model(full_model)$test.mat
 proc.time() -pm1
 #; fit_model(full_model, model_th) ;
+
+
+# Model 14: ####
+m <- 14
+model_th <- m
+full_model <- model.matrix(~Line+ RINb + RINa + Conc + 
+                             Lane + llymp + 
+                             lneut  +   dateGD)
+#dim(full_model)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)$test.mat
+proc.time() -pm1
+#; fit_model(full_model, model_th) ;
+
+
+# Model 15: ####
+m <- 15
+model_th <- m
+full_model <- model.matrix(~Line+ RINb + RINa + 
+                             Lane + llymp + 
+                             lneut  +   dateGD)
+#dim(full_model)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)$test.mat
+proc.time() -pm1
+#; fit_model(full_model, model_th) ;
+
+
+
+
+# Model 15: ####
+m <- 15
+model_th <- m
+full_model <- model.matrix(~Line+ RINb + RINa + 
+                             Lane + llymp + 
+                             lneut  +   dateGD)
+#dim(full_model)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)$test.mat
+proc.time() -pm1
+#; fit_model(full_model, model_th) ;
+
+
+# Model 16: ####
+m <- 16
+model_th <- m
+full_model <- model.matrix(~Line+ RINb + RINa + 
+                             llymp + 
+                             lneut  +   dateGD)
+#dim(full_model)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)$test.mat
+proc.time() -pm1
+#; fit_model(full_model, model_th) ;
+

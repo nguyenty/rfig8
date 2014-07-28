@@ -1,0 +1,185 @@
+\documentclass{article}
+% \usepackage[sc]{mathpazo}
+% \usepackage[T1]{fontenc}
+\usepackage{geometry}
+\usepackage{amsmath, amssymb, mathtools }
+\usepackage{enumerate}
+\usepackage{array}
+\usepackage{fancyhdr}
+\usepackage{verbatim}
+\usepackage{color}
+\usepackage{pstricks}
+% \usepackage{longtable}
+% \usepackage{fancyvrb}
+% \usepackage{fancyhdr}
+\usepackage{eqnarray}
+%\pagestyle{fancy}
+\usepackage{psfrag}
+\usepackage{epsfig,epsf}
+\usepackage{pstricks}
+\geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\usepackage{url}
+\usepackage[unicode=true,pdfusetitle,
+            bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=2,
+            breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
+{hyperref}
+\hypersetup{
+  pdfstartview={XYZ null null 1}}
+\usepackage{breakurl}
+\begin{document}
+
+
+
+<<setup, include=FALSE>>=
+#render_listings()
+#pdf.options(useDingbats = TRUE)
+opts_chunk$set(fig.path='figure/beamer-',fig.align='center',fig.show='hold',size='footnotesize',message=FALSE,error=FALSE,warning=FALSE)
+opts_chunk$set(fig.width=5, fig.height=5, out.width='.6\\linewidth', fig.align='center')
+
+@
+
+<<echo=FALSE,results='hide'>>=
+# some setup
+options(width=60) # make the printing fit on the page
+set.seed(1121) # make the results repeatable
+require(xtable)
+require(PASWR)
+@
+
+\title{Analyze RNASeq Data from G8P2 RFI Lines Using QuasiSeq Package (paired end read)}
+
+\author{Yet Nguyen}
+
+\maketitle
+<<echo=FALSE>>=
+options(width=90)
+@
+
+\section*{Results of Model 7}
+<<>>=
+
+## Covariate Set
+covset <- read.csv("covset.csv")
+attach(covset)
+
+## Load the result of model 11
+load("Model7_resultdat2.RData") 
+
+## To get P.values of all Line Testings, use result$P.values[[3]][,"Line]
+## To get Q.values of Line Testings, use result$Q.values[[3]][,"Line]
+
+scount <- read.table("paired end uniquely mapped reads count table.txt", 
+                     header = T)
+
+## List of Genes used to find DE Genes
+scount <- scount[-c(which(scount[,1] %in%"ENSSSCG00000007978"),
+                    which(scount[,1] %in%"ENSSSCG00000014725")),]
+counts <- as.matrix(scount[rowSums(scount[,-1]>0)>3&
+                           rowMeans(scount[,-1])>8 ,-1])
+
+
+## List of Line DE Genes when FDR is controled at 0.05, 0.10, 0.15
+
+degene05 <- which(result$Q.values[[3]][,"Line"]<=0.05)
+head(scount[rownames(counts[degene05,]), 1]) # First 6 of the List of Line DE Genes when FDR is controled at 0.05
+degene10 <- which(result$Q.values[[3]][,"Line"]<=0.10)
+degene15 <- which(result$Q.values[[3]][,"Line"]<=0.15)
+
+## Total number of Line  DE Genes when FDR is controlled at 0.05, 0.10, 0.15
+
+degene <- c(length(degene05), length(degene10), length(degene15))
+
+## List of Line DE Genes with log2(FC) >=1 when FDR is controlled at 0.05, 0.10, 0.15
+
+lf105 <- degene05[abs(log2(apply(counts[degene05, Line ==1]+1, 1, mean)/apply(counts[degene05, Line ==2]+1, 1, mean))) >=1]
+
+scount[rownames(counts[lf105,]), 1] # List of  Line DE Genes with log2(FC) >=1 when FDR is controled at 0.05
+
+lf110 <-degene10[abs(log2(apply(counts[degene10, Line ==1]+1, 1, mean)/apply(counts[degene10, Line ==2]+1, 1, mean))) >=1]
+
+ scount[rownames(counts[lf110,]), 1] # List of  Line DE Genes with log2(FC) >=1 when FDR is controled at 0.10
+
+lf115 <- degene15[abs(log2(apply(counts[degene15, Line ==1]+1, 1, mean)/apply(counts[degene15, Line ==2]+1, 1, mean))) >=1]
+ scount[rownames(counts[lf115,]), 1]# List of  Line DE Genes with log2(FC) >=1 when FDR is controled at 0.15
+
+## Total number of Line DE Genes with log2(FC) >=1 when FDR is controlled at 0.05, 0.10, 0.15
+
+lf1 <- c(length(lf105), length(lf110), length(lf115))
+@
+
+
+
+<<results='asis'>>=
+# Summary table
+out <- data.frame(FDR =c(0.05, 0.10, 0.15), degene = degene, lf1 = lf1)
+colnames(out) <- c("FDR", "DEGs", "log2(FC)>=1")
+xtable(out)
+@
+
+
+\section{List of Gene in Analysis and List of Pvalues, Qvalues, logFC}
+
+<<>>=
+covset <- read.csv("covset.csv")
+attach(covset)
+
+## Load the result of model 11
+load("Model7_resultdat2.RData") 
+
+## To get P.values of all Line Testings, use result$P.values[[3]][,"Line]
+## To get Q.values of Line Testings, use result$Q.values[[3]][,"Line]
+
+scount <- read.table("paired end uniquely mapped reads count table.txt", 
+                     header = T)
+
+## List of Genes used to find DE Genes
+scount <- scount[-c(which(scount[,1] %in%"ENSSSCG00000007978"),
+                    which(scount[,1] %in%"ENSSSCG00000014725")),]
+
+kept_gene <- scount[rowSums(scount[,-1]>0)>3&
+                           rowMeans(scount[,-1])>8 ,]
+
+# dim(kept_gene)
+load("Model7_resultdat2.RData")
+Line_pvalue <- result$P.values[[3]][,"Line"]
+Line_qvalue <- result$Q.values[[3]][,"Line"]
+log2fc <- log2(apply(kept_gene[,-1][,Line ==1]+1, 1, mean)/
+                 apply(kept_gene[,-1][,Line ==2]+1, 1, mean))
+
+
+kept_gene_ex <- cbind(kept_gene, line_pvalue = Line_pvalue, 
+                      line_qvalue = Line_qvalue, 
+                      log2fc = log2fc)
+
+de_gene_ex <- subset(kept_gene_ex, line_qvalue <=0.05)
+
+de_log2fc1_gene_ex <- subset(de_gene_ex, abs(log2fc) >=1)
+dim(de_log2fc1_gene_ex)
+
+write.table(kept_gene_ex, file = "kept_gene_paired_end.txt" ,
+            sep = "\t", 
+            row.names = FALSE)
+write.table(de_gene_ex, file = "DE_gene_paired_end_qvalue05.txt",
+            sep = "\t", 
+            row.names = FALSE )
+write.table(de_log2fc1_gene_ex, file = "log2fc1_DE_gene_paired_end_qvalue05.txt" ,
+            sep = "\t", 
+            row.names = FALSE)
+
+# normalization count data 
+offset <- apply(counts, 2, quantile, 0.75)
+norm_count_paired <- sweep(kept_gene[,-1], 2,STATS =  offset, FUN="/")
+dim(norm_count_paired)
+summary(norm_count_paired)
+norm_count_paired_ex <- cbind(GeneID =kept_gene_ex[,1], norm_count_paired, 
+                              kept_gene_ex[,33:(dim(kept_gene_ex)[2])])
+
+head(norm_count_paired_ex)
+write.table(norm_count_paired_ex, file = "norm_count_paired.txt" ,
+            sep = "\t", 
+            row.names = FALSE)
+
+@
+\end{document}

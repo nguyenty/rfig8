@@ -37,7 +37,7 @@
 #pdf.options(useDingbats = TRUE)
 opts_chunk$set(fig.path='figure/beamer-',fig.align='center',fig.show='hold',size='footnotesize',message=FALSE,error=FALSE,warning=FALSE)
 opts_chunk$set(fig.width=5, fig.height=5, out.width='.6\\linewidth', fig.align='center')
-opts_chunk$set(tidy='FALSE')
+opts_chunk$set(tidy=FALSE)
 
 @
 
@@ -49,7 +49,7 @@ require(xtable)
 require(PASWR)
 @
 
-\title{Analyze RNASeq Data from G8P2 RFI Lines Using QuasiSeq Package (paired end read)}
+\title{Analyze RNASeq Data from G8P2 RFI Lines Using QuasiSeq Package}
 
 \author{Yet Nguyen}
 
@@ -58,7 +58,9 @@ require(PASWR)
 options(width=90)
 @
 
-<<tidy =FALSE>>=
+<<tidy =FALSE,echo=FALSE>>=
+require(xtable)
+require(PASWR)
 library(reshape)
 library(plyr)
 library(fdrtool)
@@ -224,36 +226,36 @@ result_sum <- function(result, threshold){
 
 @
 
-<<cach=TRUE,echo=FALSE,tidy=FALSE,results='hide'>>=
+<<cache=TRUE,echo=FALSE,tidy=FALSE,results='hide',echo=FALSE>>=
 # model 1####
 load("/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model1.Line.Diet.RFI.RINb.RINa.Conc.Lane.llymp.lneut.lmono.leosi.lbaso.dateRNA/Model1_result.RData")
 
-sel_criteria(result)
+#sel_criteria(result)
 
 # model 2####
 load("/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model2.Line.RFI.RINb.RINa.Conc.Lane.llymp.lneut.lmono.leosi.lbaso.dateRNA/Model2_result.RData")
-sel_criteria(result)
+#sel_criteria(result)
 
 # model 3####
 load("/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model3.Line.RFI.RINb.RINa.Lane.llymp.lneut.lmono.leosi.lbaso.dateRNA/Model3_result.RData")
 
-sel_criteria(result)
+#sel_criteria(result)
 # model 4####
 load("/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model4.Line.RFI.RINb.RINa.Lane.llymp.lneut.lmono.leosi.dateRNA/Model4_result.RData")
 
-sel_criteria(result)
+#sel_criteria(result)
 
 # model 5####
 load("/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model5.Line.RFI.RINb.RINa.Lane.llymp.lneut.leosi.dateRNA/Model5_result.RData")
 
-sel_criteria(result)
+#sel_criteria(result)
 @
 
-<<tidy=FALSE,results='asis'>>=
+<<tidy=FALSE,results='asis',cache=TRUE,echo=FALSE>>=
 # model 6####
 
 load("/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model6.Line.RFI.RINb.RINa.Lane.llymp.lneut.dateRNA/Model6_result.RData")
-sel_criteria(result)
+#sel_criteria(result)
 
 pvalue_line6 <- (result$P.values[[3]][,"Line"])
 ## Total number of Line  DE Genes when FDR is controlled at 0.05, 0.10, 0.15, .20
@@ -275,14 +277,15 @@ lf1 <- c(result_sum(result, 0.05)$n_de_log2fc1_gene,
 
 # Summary table
 out <- data.frame(FDR =c(0.05, 0.10, 0.15, .20), degene = degene, lf1 = lf1)
-colnames(out) <- c("FDR", "DEGs", "$\\mbox{log(FC)}\\geq 1$")
-
+colnames(out) <- c("FDR", "DEGs", "log2(FC)>=1")
+xtable(out, caption = "Model 6",floating=TRUE,type="latex",
+       table.placement='h')
 
 #plot(pvalueline6, qvalueline6)
 
 # model 7####
 load("/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model7.Line.RINb.RINa.Lane.llymp.lneut.dateRNA/Model7_result.RData")
-sel_criteria(result)
+#sel_criteria(result)
 
 pvalue_line7 <-(result$P.values[[3]][,"Line"])
 ## Total number of Line  DE Genes when FDR is controlled at 0.05, 0.10, 0.15, .20
@@ -304,13 +307,14 @@ lf1 <- c(result_sum(result, 0.05)$n_de_log2fc1_gene,
 
 # Summary table
 out <- data.frame(FDR =c(0.05, 0.10, 0.15, .20), degene = degene, lf1 = lf1)
-colnames(out) <- c("FDR", "DEGs", "$\\mbox{log(FC)}\\geq 1$")
-out
+colnames(out) <- c("FDR", "DEGs", "log2(FC)>=1")
+xtable(out, caption = "Model 7",floating=TRUE,type="latex",
+       table.placement='h')
 
 
 # model 8####
 load("/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model8.Line.RINb.RINa.llymp.lneut.dateRNA/Model8_result.RData")
-sel_criteria(result)
+#sel_criteria(result)
 pvalue_line8 <- result$P.values[[3]][,"Line"]
 ## Total number of Line  DE Genes when FDR is controlled at 0.05, 0.10, 0.15, .20
 
@@ -331,12 +335,14 @@ lf1 <- c(result_sum(result, 0.05)$n_de_log2fc1_gene,
 
 # Summary table
 out <- data.frame(FDR =c(0.05, 0.10, 0.15, .20), degene = degene, lf1 = lf1)
-colnames(out) <- c("FDR", "DEGs", "$\\mbox{log(FC)}\\geq 1$")
-out
+colnames(out) <- c("FDR", "DEGs", "log2(FC)>=1")
+xtable(out, caption = "Model 8",floating=TRUE,type="latex",
+       table.placement='h'
+)
 @
 
 
-<<tidy=FALSE>>=
+<<tidy=FALSE,echo=FALSE>>=
 
 pairs(log(cbind(pvalue_line6, pvalue_line7, pvalue_line8)),
       lower.panel=panel.smooth, upper.panel=panel.cor,diag.panel=panel.hist)
@@ -344,24 +350,24 @@ pairs(log(cbind(pvalue_line6, pvalue_line7, pvalue_line8)),
 
 
 
-<<tidy = FALSE,results='asis'>>=
+<<tidy = FALSE,results='asis',cache=TRUE,echo=FALSE>>=
 # model 9####
 load("/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model9.Line.Diet.RFI.RINb.RINa.Conc.Lane.llymp.lneut.lmono.leosi.lbaso.dateGD/Model9_result.RData")
 
-sel_criteria(result)
+#sel_criteria(result)
 
 # model 10####
 load("/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model10.Line.Diet.RINb.RINa.Conc.Lane.llymp.lneut.lmono.leosi.lbaso.dateGD/Model10_result.RData")
-sel_criteria(result)
+#sel_criteria(result)
 
 # model 11####
 load("/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model11.Line.Diet.RINb.RINa.Conc.Lane.llymp.lneut.lmono.leosi.dateGD/Model11_result.RData")
 
-sel_criteria(result)
+#sel_criteria(result)
 # model 12####
 load("/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model12.Line.Diet.RINb.RINa.Conc.Lane.llymp.lneut.lmono.dateGD/Model12_result.RData")
 
-sel_criteria(result)
+#sel_criteria(result)
 
 pvalue_line12 <- result$P.values[[3]][,"Line"]
 ## Total number of Line  DE Genes when FDR is controlled at 0.05, 0.10, 0.15, .20
@@ -383,12 +389,14 @@ lf1 <- c(result_sum(result, 0.05)$n_de_log2fc1_gene,
 
 # Summary table
 out <- data.frame(FDR =c(0.05, 0.10, 0.15, .20), degene = degene, lf1 = lf1)
-colnames(out) <- c("FDR", "DEGs", "$\\mbox{log(FC)}\\geq 1$")
-out
+colnames(out) <- c("FDR", "DEGs", "log2(FC)>=1")
+xtable(out, caption = "Model 12",floating=TRUE,type="latex",
+       table.placement='h')
+
 # model 13####
 load("/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model13.Line.Diet.RINb.RINa.Conc.Lane.llymp.lneut.dateGD/Model13_result.RData")
 
-sel_criteria(result)
+#sel_criteria(result)
 pvalue_line13 <- result$P.values[[3]][,"Line"]
 ## Total number of Line  DE Genes when FDR is controlled at 0.05, 0.10, 0.15, .20
 
@@ -409,13 +417,14 @@ lf1 <- c(result_sum(result, 0.05)$n_de_log2fc1_gene,
 
 # Summary table
 out <- data.frame(FDR =c(0.05, 0.10, 0.15, .20), degene = degene, lf1 = lf1)
-colnames(out) <- c("FDR", "DEGs", "$\\mbox{log(FC)}\\geq 1$")
-out
+colnames(out) <- c("FDR", "DEGs", "log2(FC)>=1")
+xtable(out, caption = "Model 13",floating=TRUE,type="latex",
+       table.placement='h')
 
 # model 14####
 
 load("/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model14.Line.RINb.RINa.Conc.Lane.llymp.lneut.dateGD/Model14_result.RData")
-sel_criteria(result)
+#sel_criteria(result)
 pvalue_line14 <- result$P.values[[3]][,"Line"]
 ## Total number of Line  DE Genes when FDR is controlled at 0.05, 0.10, 0.15, .20
 
@@ -436,12 +445,13 @@ lf1 <- c(result_sum(result, 0.05)$n_de_log2fc1_gene,
 
 # Summary table
 out <- data.frame(FDR =c(0.05, 0.10, 0.15, .20), degene = degene, lf1 = lf1)
-colnames(out) <- c("FDR", "DEGs", "$\\mbox{log(FC)}\\geq 1$")
-out
+colnames(out) <- c("FDR", "DEGs", "log2(FC)>=1")
+xtable(out, caption = "Model 14",floating=TRUE,type="latex",
+       table.placement='h')
 
 # model 15####
 load("/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model15.Line.RINb.RINa.Lane.llymp.lneut.dateGD/Model15_result.RData")
-sel_criteria(result)
+#sel_criteria(result)
 pvalue_line15 <- result$P.values[[3]][,"Line"]
 ## Total number of Line  DE Genes when FDR is controlled at 0.05, 0.10, 0.15, .20
 
@@ -462,13 +472,14 @@ lf1 <- c(result_sum(result, 0.05)$n_de_log2fc1_gene,
 
 # Summary table
 out <- data.frame(FDR =c(0.05, 0.10, 0.15, .20), degene = degene, lf1 = lf1)
-colnames(out) <- c("FDR", "DEGs", "$\\mbox{log(FC)}\\geq 1$")
-out
+colnames(out) <- c("FDR", "DEGs", "log2(FC)>=1")
+xtable(out, caption = "Model 15",floating=TRUE,type="latex",
+       table.placement='h')
 
 
 # model 16####
 load("/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model16.Line.RINb.RINa.llymp.lneut.dateGD/Model16_result.RData")
-sel_criteria(result)
+#sel_criteria(result)
 pvalue_line16 <- result$P.values[[3]][,"Line"]
 ## Total number of Line  DE Genes when FDR is controlled at 0.05, 0.10, 0.15, .20
 
@@ -489,13 +500,41 @@ lf1 <- c(result_sum(result, 0.05)$n_de_log2fc1_gene,
 
 # Summary table
 out <- data.frame(FDR =c(0.05, 0.10, 0.15, .20), degene = degene, lf1 = lf1)
-colnames(out) <- c("FDR", "DEGs", "$\\mbox{log(FC)}\\geq 1$")
-out
+colnames(out) <- c("FDR", "DEGs", "log2(FC)>=1")
+xtable(out, caption = "Model 16",floating=TRUE,type="latex",
+       table.placement='h')
 
 @
 
-<<tidy='FALSE'>>=
-pairs(log(cbind(pvalue_line13, pvalue_line14, pvalue_line15, pvalue_line16)),
+<<tidy=FALSE,echo=FALSE,cache=TRUE>>=
+pairs(log(cbind(pvalue_line12, pvalue_line13, pvalue_line14, pvalue_line15, pvalue_line16)),
       lower.panel=panel.smooth, upper.panel=panel.cor,diag.panel=panel.hist)
 
 @
+
+
+
+<<tidy=FALSE,echo=FALSE,cache=TRUE>>=
+pairs(log(cbind(pvalue_line6, pvalue_line7, pvalue_line8,pvalue_line12, pvalue_line13, pvalue_line14, pvalue_line15, pvalue_line16)),
+      lower.panel=panel.smooth, upper.panel=panel.cor,diag.panel=panel.hist)
+
+@
+
+<<tidy=FALSE>>=
+load("/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model8.Line.RINb.RINa.llymp.lneut.dateRNA/Model8_result.RData")
+
+
+id_de_G8_20qvalue <- result_sum(result, 0.2)$id_de_gene
+g9_out <- read.table("DE_gene_single_end_qvalue20.txt",
+                     header = T)
+
+gene_list <- intersect(id_de_G8_20qvalue,g9_out$GeneID)
+#gene_list
+length(intersect(id_de_G8_20qvalue,g9_out$GeneID))
+mean_line1 <- apply(counts[gene_list,Line ==1]+1,1,mean)
+mean_line2 <- apply(counts[gene_list,Line ==2]+1,1,mean)
+lfc <- abs(log2(mean_line1) - log2(mean_line2))
+which(lfc >=1)
+@
+
+\end{document}

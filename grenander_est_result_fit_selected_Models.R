@@ -1,63 +1,3 @@
-\documentclass{article}
-% \usepackage[sc]{mathpazo}
-% \usepackage[T1]{fontenc}
-\usepackage{geometry}
-\usepackage{amsmath, amssymb, mathtools }
-\usepackage{enumerate}
-\usepackage{array}
-\usepackage{fancyhdr}
-\usepackage{verbatim}
-\usepackage{color}
-\usepackage{pstricks}
-% \usepackage{longtable}
-% \usepackage{fancyvrb}
-% \usepackage{fancyhdr}
-\usepackage{eqnarray}
-%\pagestyle{fancy}
-\usepackage{psfrag}
-\usepackage{epsfig,epsf}
-\usepackage{pstricks}
-\geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
-\setcounter{secnumdepth}{2}
-\setcounter{tocdepth}{2}
-\usepackage{url}
-\usepackage[unicode=true,pdfusetitle,
-            bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=2,
-            breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
-{hyperref}
-\hypersetup{
-  pdfstartview={XYZ null null 1}}
-\usepackage{breakurl}
-\begin{document}
-
-
-
-<<setup, include=FALSE>>=
-  #render_listings()
-  #pdf.options(useDingbats = TRUE)
-  opts_chunk$set(fig.path='figure/beamer-',fig.align='center',fig.show='hold',size='footnotesize',message=FALSE,error=FALSE,warning=FALSE)
-opts_chunk$set(fig.width=5, fig.height=5, out.width='.6\\linewidth', fig.align='center')
-
-@
-  
-  <<echo=FALSE,results='hide'>>=
-  # some setup
-  options(width=60) # make the printing fit on the page
-set.seed(1121) # make the results repeatable
-require(xtable)
-require(PASWR)
-@
-  
-  \title{Analyze RNASeq Data from G8P2 RFI Lines Using QuasiSeq Package (paired end read)}
-
-\author{Yet Nguyen}
-
-\maketitle
-<<echo=FALSE>>=
-  options(width=90)
-@
-  
-<<>>=
 library(reshape)
 library(plyr)
 library(fdrtool)
@@ -478,3 +418,18 @@ out
 
 pairs(log(cbind(pvalue_line13, pvalue_line14, pvalue_line15, pvalue_line16)),
       lower.panel=panel.smooth, upper.panel=panel.cor,diag.panel=panel.hist)
+
+
+## final results
+
+## Genelist model 8
+
+
+
+load("/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model8.Line.RINb.RINa.llymp.lneut.dateRNA/Model8_result.RData")
+
+id_de_G8_20qlavlue <- result_sum(result, 0.2)$id_de_gene
+g9_out <- read.table("DE_gene_single_end_qvalue05.txt",
+                     header = T)
+str(g9_out)
+intersect(id_de_G8_20qlavlue,g9_out$GeneID)

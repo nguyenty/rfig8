@@ -4,12 +4,13 @@ library(edgeR)
 library(fields)
 library(plyr)
 library(reshape)
+library(QuasiSeq)
 dir.source <- "U:/stevescode/QuasiSeq_1.0-2/QuasiSeq/R/"
 #dir.source <- "/home/ntyet/stevescode/QuasiSeq_1.0-2/QuasiSeq/R/"
-source("QL.fit.R")
-source("NBDev.R")
-source("PoisDev.R")
-source("QL.results.R")
+# source("QL.fit.R")
+# source("NBDev.R")
+# source("PoisDev.R")
+# source("QL.results.R")
 
 
 # datdir <- "/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data"
@@ -70,6 +71,8 @@ RINa  <- meta.data2[-5,]$RIN.after.GD
 Conc <- meta.data2[-5,]$Conc.after.GD.ng.ul.
 dateGD <- meta.data2[-5,]$date.GD
 dateRNA <- meta.data2[-5,]$date.RNA.extraction
+dateRNAGD <- as.factor(paste0(dateRNA, dateGD))
+levels(dateRNAGD) <- 1:6
 colnames(cbc_cov)
 
 llymp <- log(cbc_cov[,"Lymphocyte"])
@@ -569,3 +572,18 @@ list_model(full_model)$test.mat
 proc.time() -pm1
 #; fit_model(full_model, model_th) ;
 
+# Model 101: ####
+m <- 101
+model_th <- m
+full_model <- model.matrix(~Line*Diet + RFI + RINb + RINa + Conc + Lane + dateRNAGD)
+colnames(full_model)
+
+
+#dim(full_model)
+table(dateRNA, dateGD)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)$test.mat
+proc.time() -pm1

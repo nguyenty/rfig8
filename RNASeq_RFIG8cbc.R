@@ -74,7 +74,7 @@ dateRNA <- meta.data2[-5,]$date.RNA.extraction
 dateRNAGD <- as.factor(paste0(dateRNA, dateGD))
 levels(dateRNAGD) <- 1:6
 colnames(cbc_cov)
-
+dateRNAGD
 llymp <- log(cbc_cov[,"Lymphocyte"])
 lneut <- log(cbc_cov[,"Neutrophil"])
 lmono <- log(cbc_cov[,"Monocyte"])
@@ -175,7 +175,12 @@ list_model <- function(full_model){
   n <- dim(full_model)[2]
   variable_name <- colnames(full_model)
   variable_name <- gsub(":", "", variable_name)
+  variable_name <- gsub("1", "", variable_name)
   variable_name <- gsub("2", "", variable_name)
+  variable_name <- gsub("3", "", variable_name)
+  variable_name <- gsub("4", "", variable_name)
+  variable_name <- gsub("5", "", variable_name)
+  variable_name <- gsub("6", "", variable_name)
   variable_name <- gsub("7", "", variable_name)
   test.mat <- NULL
   design.list <- vector("list", n)
@@ -231,6 +236,30 @@ list_model <- function(full_model){
     }
     }
   }
+  
+  if (any(variable_name == "dateRNAGD")){
+    ind_dateRNAGD <- which(variable_name == "dateRNAGD")[1]
+    design.list <- vector("list", n-4)
+    design.list[[1]] <- full_model
+    test.mat <- laply(1:(n-5), function(i) c(1,i+1))
+    row.names(test.mat) <- variable_name[1:nrow(test.mat)] # will change latter
+    
+    for(i in 2:(ind_dateRNAGD-1)){
+      design.list[[i]] <- as.matrix(full_model[,-i])
+      row.names(test.mat)[i-1] <- variable_name[i]
+    }
+    
+    design.list[[ind_dateRNAGD]] <- full_model[,-(ind_dateRNAGD:(ind_dateRNAGD+4))]
+    row.names(test.mat)[ind_dateRNAGD -1] <- "dateRNAGD"
+    
+    if ((ind_dateRNAGD+1)<=(n-4)) {for(i in ((ind_dateRNAGD+1):(n-4))){
+      design.list[[i]] <- full_model[,-(i+4)]
+      row.names(test.mat)[i-1] <- variable_name[i+4]    
+    }
+    }
+
+  }
+  
   if (n ==2) design.list[[2]] <- rep(1, nrow(full_model))
   return(list(design.list = design.list, test.mat = test.mat))
 }
@@ -573,14 +602,15 @@ proc.time() -pm1
 #; fit_model(full_model, model_th) ;
 
 # Model 101: ####
-m <- 101
+m <- 1
 model_th <- m
-full_model <- model.matrix(~Line*Diet + RFI + RINb + RINa + Conc + Lane + dateRNAGD)
+full_model <- model.matrix(~Line*Diet + RFI + RINb + RINa + Conc + 
+                             Lane + llymp + 
+                             lneut + lmono + leosi + lbaso + dateRNAGD)
 colnames(full_model)
 
 
 #dim(full_model)
-table(dateRNA, dateGD)
 pm1 <- proc.time()
 out_model <- fit_model(full_model, model_th)
 assign(paste("ms_criteria", model_th, sep = "_" ),out_model)

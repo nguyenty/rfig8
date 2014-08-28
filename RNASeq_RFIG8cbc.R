@@ -716,7 +716,99 @@ m <- 7
 model_th <- m
 full_model <- model.matrix(~Line +  RINb + RINa + Conc + 
                              Lane + llymp + 
-                             lneut + lmono  + dateRNAGD)
+                             lneut   + dateRNAGD)
+colnames(full_model)
+
+
+#dim(full_model)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)$test.mat
+proc.time() -pm1
+
+
+# Model 108: ####
+m <- 8
+model_th <- m
+full_model <- model.matrix(~Line +  RINb + RINa + Conc + 
+                             Lane + llymp + 
+                             lneut +  dateRNAGD)
+colnames(full_model)
+
+
+#dim(full_model)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)$test.mat
+proc.time() -pm1
+
+# Model 109: ####
+m <- 9
+model_th <- m
+full_model <- model.matrix(~Line +  RINb + RINa + Conc + 
+                             llymp + 
+                             lneut +  dateRNAGD)
+#colnames(full_model)
+
+
+#dim(full_model)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)$test.mat
+proc.time() -pm1
+
+
+
+# Model 110: ####
+m <- 10
+model_th <- m
+full_model <- model.matrix(~Line +  RINb + RINa +
+                             llymp + 
+                             lneut +  dateRNAGD)
+#colnames(full_model)
+
+
+#dim(full_model)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)$test.mat
+proc.time() -pm1
+
+
+
+# Model 111: ####
+m <- 11
+model_th <- m
+full_model <- model.matrix(~Line +  RINb + RINa +
+                             llymp + 
+                             lneut)
+#colnames(full_model)
+
+
+#dim(full_model)
+pm1 <- proc.time()
+out_model <- fit_model(full_model, model_th)
+assign(paste("ms_criteria", model_th, sep = "_" ),out_model)
+get(paste("ms_criteria", model_th, sep = "_" ))
+list_model(full_model)$test.mat
+proc.time() -pm1
+
+
+
+# Model 201: ####
+m <- 1
+model_th <- m
+full_model <- model.matrix(~Line + Diet + RFI + RINb + RINa + Conc + 
+                             Lane + llymp + 
+                             lneut + lmono + leosi + lbaso + dateRNAGD)
 colnames(full_model)
 
 

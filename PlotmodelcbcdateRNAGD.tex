@@ -1,0 +1,191 @@
+\documentclass[landscape]{article}
+\usepackage%
+[%
+left=0.1cm,% left margin
+right=0.1cm,% right margin
+top=0.01cm, % top margin
+bottom=3cm,% bottom margin
+a1paper% other options: a0paper, a1paper, a2paper, a3paper, a4paper, a5paper, a6paper, and many more.
+]{geometry}
+
+\usepackage[centertags]{amsmath}
+\usepackage{amsfonts,multicol}
+\usepackage{graphicx,colortbl}
+\usepackage{parskip}
+\setlength{\parskip}{2pt}
+\usepackage{hyperref}
+\hypersetup{pdfpagelayout=SinglePage}
+% 
+ \pagestyle{plain}
+% \usepackage{graphicx}
+ \usepackage[space]{grffile}
+%\usepackage[top=.3in, bottom=.1in, left=.01in, right=.01in]{geometry}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{rotating}
+\usepackage[table]{xcolor}
+\usepackage{multirow}
+\usepackage{amsfonts}
+
+\def \dirron {/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model1.Line.Diet.RFI.RINb.RINa.Conc.Lane.llymp.lneut.lmono.leosi.lbaso.dateRNAGD/}
+
+\def \dirrtw {/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model2.Line.Diet.RINb.RINa.Conc.Lane.llymp.lneut.lmono.leosi.lbaso.dateRNAGD/}
+
+\def \dirrth {/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model3.Line.Diet.RINb.RINa.Conc.Lane.llymp.lneut.lmono.lbaso.dateRNAGD/}
+
+\def \dirrfo {/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model4.Line.Diet.RINb.RINa.Conc.Lane.lneut.lmono.lbaso.dateRNAGD/}
+
+\def \dirrfi {/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model5.Line.Diet.RINb.RINa.Conc.Lane.lneut.lbaso.dateRNAGD/}
+
+\def \dirrsi{/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model6.Line.RINb.RINa.Conc.Lane.lneut.lbaso.dateRNAGD/}
+
+\def \dirrse{/run/user/1000/gvfs/smb-share:server=cyfiles.iastate.edu,share=09/22/ntyet/R/RA/Data/Reanalysis Data/resultcbc/Model7.Line.RINb.RINa.Conc.lneut.lbaso.dateRNAGD/}
+
+\begin{document}
+\begin{table}
+\Huge
+\centering
+\begin{tabular}{cccccccccccccccc}
+      {\Huge \textbf{M}} 
+      & {\Huge\textbf{ Line}} 
+      &{\Huge \textbf{Diet}} 
+      & {\Huge \textbf{RFI}}
+      &{\Huge\textbf{ RINb}} 
+      &{\Huge \textbf{RINa}} 
+      &{\Huge \textbf{Conc}} 
+      &{\Huge \textbf{Lane}}
+      &{\Huge \textbf{logLymp}}
+      &{\Huge \textbf{logNeut}}
+      &{\Huge \textbf{logMono}}
+      &{\Huge \textbf{logEosi}}
+      &{\Huge \textbf{logBaso}}
+      &{\Huge \textbf{dateRNAGD}}
+      \\
+      \hline
+      
+      {\Huge \textbf{1}} 
+      &\includegraphics[scale=.31]{\dirron Model1Line.pdf}
+      &\includegraphics[scale=.31]{\dirron Model1Diet.pdf}
+      &\includegraphics[scale=.31]{\dirron Model1RFI.pdf}
+      &\includegraphics[scale=.31]{\dirron Model1RINb.pdf}
+      &\includegraphics[scale=.31]{\dirron Model1RINa.pdf}
+      &\includegraphics[scale=.31]{\dirron Model1Conc.pdf}
+      &\includegraphics[scale=.31]{\dirron Model1Lane.pdf}
+      &\includegraphics[scale=.31]{\dirron Model1llymp.pdf}
+      &\includegraphics[scale=.31]{\dirron Model1lneut.pdf}
+      &\includegraphics[scale=.31]{\dirron Model1lmono.pdf}
+      &\includegraphics[scale=.31]{\dirron Model1leosi.pdf}
+      &\includegraphics[scale=.31]{\dirron Model1lbaso.pdf}
+      &\includegraphics[scale=.31]{\dirron Model1dateRNAGD.pdf}
+     \\
+     \hline
+     
+      {\Huge \textbf{2}} 
+      &\includegraphics[scale=.31]{\dirrtw Model2Line.pdf}
+      &\includegraphics[scale=.31]{\dirrtw Model2Diet.pdf}
+      &
+      &\includegraphics[scale=.31]{\dirrtw Model2RINb.pdf}
+      &\includegraphics[scale=.31]{\dirrtw Model2RINa.pdf}
+      &\includegraphics[scale=.31]{\dirrtw Model2Conc.pdf}
+      &\includegraphics[scale=.31]{\dirrtw Model2Lane.pdf}
+      &\includegraphics[scale=.31]{\dirrtw Model2llymp.pdf}
+      &\includegraphics[scale=.31]{\dirrtw Model2lneut.pdf}
+      &\includegraphics[scale=.31]{\dirrtw Model2lmono.pdf}
+      &\includegraphics[scale=.31]{\dirrtw Model2leosi.pdf}
+      &\includegraphics[scale=.31]{\dirrtw Model2lbaso.pdf}
+      &\includegraphics[scale=.31]{\dirrtw Model2dateRNAGD.pdf}
+     \\
+     \hline
+     
+     {\Huge \textbf{3}} 
+      &\includegraphics[scale=.31]{\dirrth Model3Line.pdf}
+      &\includegraphics[scale=.31]{\dirrth Model3Diet.pdf}
+      &
+      &\includegraphics[scale=.31]{\dirrth Model3RINb.pdf}
+      &\includegraphics[scale=.31]{\dirrth Model3RINa.pdf}
+      &\includegraphics[scale=.31]{\dirrth Model3Conc.pdf}
+      &\includegraphics[scale=.31]{\dirrth Model3Lane.pdf}
+      &\includegraphics[scale=.31]{\dirrth Model3llymp.pdf}
+      &\includegraphics[scale=.31]{\dirrth Model3lneut.pdf}
+      &\includegraphics[scale=.31]{\dirrth Model3lmono.pdf}
+      &
+      &\includegraphics[scale=.31]{\dirrth Model3lbaso.pdf}
+      &\includegraphics[scale=.31]{\dirrth Model3dateRNAGD.pdf}
+     \\
+     \hline
+     
+     {\Huge \textbf{4}} 
+      &\includegraphics[scale=.31]{\dirrfo Model4Line.pdf}
+      &\includegraphics[scale=.31]{\dirrfo Model4Diet.pdf}
+      &
+      &\includegraphics[scale=.31]{\dirrfo Model4RINb.pdf}
+      &\includegraphics[scale=.31]{\dirrfo Model4RINa.pdf}
+      &\includegraphics[scale=.31]{\dirrfo Model4Conc.pdf}
+      &\includegraphics[scale=.31]{\dirrfo Model4Lane.pdf}
+      &
+      &\includegraphics[scale=.31]{\dirrfo Model4lneut.pdf}
+      &\includegraphics[scale=.31]{\dirrfo Model4lmono.pdf}
+      &
+      &\includegraphics[scale=.31]{\dirrfo Model4lbaso.pdf}
+      &\includegraphics[scale=.31]{\dirrfo Model4dateRNAGD.pdf}
+     \\
+     \hline
+     
+     {\Huge \textbf{5}} 
+      &\includegraphics[scale=.31]{\dirrfi Model5Line.pdf}
+      &\includegraphics[scale=.31]{\dirrfi Model5Diet.pdf}
+      &
+      &\includegraphics[scale=.31]{\dirrfi Model5RINb.pdf}
+      &\includegraphics[scale=.31]{\dirrfi Model5RINa.pdf}
+      &\includegraphics[scale=.31]{\dirrfi Model5Conc.pdf}
+      &\includegraphics[scale=.31]{\dirrfi Model5Lane.pdf}
+      &
+      &\includegraphics[scale=.31]{\dirrfi Model5lneut.pdf}
+      &
+      &
+      &\includegraphics[scale=.31]{\dirrfi Model5lbaso.pdf}
+      &\includegraphics[scale=.31]{\dirrfi Model5dateRNAGD.pdf}
+      
+     \\
+     \hline
+     {\Huge \textbf{6}} 
+      &\includegraphics[scale=.31]{\dirrsi Model6Line.pdf}
+      &
+      &
+      &\includegraphics[scale=.31]{\dirrsi Model6RINb.pdf}
+      &\includegraphics[scale=.31]{\dirrsi Model6RINa.pdf}
+      &\includegraphics[scale=.31]{\dirrsi Model6Conc.pdf}
+      &\includegraphics[scale=.31]{\dirrsi Model6Lane.pdf}
+      &
+      &\includegraphics[scale=.31]{\dirrsi Model6lneut.pdf}
+      &
+      &
+      &\includegraphics[scale=.31]{\dirrsi Model6lbaso.pdf}
+      &\includegraphics[scale=.31]{\dirrsi Model6dateRNAGD.pdf}
+      
+     \\
+     \hline
+     {\Huge \textbf{7}} 
+      &\includegraphics[scale=.31]{\dirrse Model7Line.pdf}
+      &
+      &
+      &\includegraphics[scale=.31]{\dirrse Model7RINb.pdf}
+      &\includegraphics[scale=.31]{\dirrse Model7RINa.pdf}
+      &\includegraphics[scale=.31]{\dirrse Model7Conc.pdf}
+      &
+      &
+      &\includegraphics[scale=.31]{\dirrse Model7lneut.pdf}
+      &
+      &
+      &\includegraphics[scale=.31]{\dirrse Model7lbaso.pdf}
+      &\includegraphics[scale=.31]{\dirrse Model7dateRNAGD.pdf}
+      
+     \\
+     \hline
+     
+     
+     
+\end{tabular}
+\end{table}
+
+\end{document} 

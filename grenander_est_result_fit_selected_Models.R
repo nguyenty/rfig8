@@ -7,7 +7,7 @@ ndata <- read.csv("g8p2_g9p2-rfiadj-FINAL_Jan_2014_rfiadjusted.csv")
 # cbc <- read.csv('cbcdata.csv',
 #                 header =T)
 dat <- read.table("RFI_uniq_comb_count_corrected.txt")
-# #dat <- read.table("RFI_uniq_comb_count_2.txt")
+#dat <- read.table("RFI_uniq_comb_count_2.txt")
 # dim(dat)
 # which(rownames(dat) %in% "ENSSSCG00000007978")
 # which(rownames(dat) %in% "ENSSSCG00000014725")

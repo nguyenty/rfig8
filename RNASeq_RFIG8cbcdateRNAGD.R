@@ -326,11 +326,7 @@ list_model(full_model)
 proc.time() -pm1
 #; fit_model(full_model, model_th) ;
 
-table(dateRNA, dateGD)
-modelout <- model.matrix(~dateRNA + dateGD)
-dim(modelout)
-svdout <- svd(model.matrix(~dateRNA + dateGD))
-svdout
+
 # Model 1: ####
 m <- 1
 model_th <- m
